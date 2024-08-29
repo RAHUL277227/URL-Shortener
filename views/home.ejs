@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1200px; /* Adjusted for more space */
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #333333;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: #555555;
+        }
+        input[type="url"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-group {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="submit"] {
+            padding: 15px 30px; /* Increased padding for a larger button */
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #ffffff;
+            font-size: 18px; /* Increased font size */
+            cursor: pointer;
+            display: inline-block; /* Ensures proper centering */
+            margin-top: 10px; /* Space between input field and button */
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .url-generated {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            color: #333333;
+            font-size: 18px;
+            word-wrap: break-word; /* Ensures long URLs break properly */
+            max-width: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #dddddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+        td a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        td a:hover {
+            text-decoration: underline;
+        }
+        .no-data {
+            text-align: center;
+            font-style: italic;
+            color: #777777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Shorten Your URL</h1>
+        <form action="/url" method="post">
+            <div class="form-group">
+                <label for="urlInput">Enter your URL:</label>
+                <input type="url" id="urlInput" name="url" placeholder="https://example.com" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Shorten URL">
+            </div>
+            <% if (locals.id) { %>
+                <div class="url-generated">
+                    URL Generated: <a href="http://localhost:8000/url/<%= id %>" target="_blank">http://localhost:8000/url/<%= id %></a>
+                </div>
+            <% } %>
+        </form>
+
+        <!-- Table for displaying URL data -->
+        <h2>URL Data</h2>
+        <% if (locals.url) { %>
+         
+            <table>
+                <thead>
+                    <tr>
+                        <th>Original URL</th>
+                        <th>Shortened URL</th>
+                        <th>Visits</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% url.forEach(all => { %>
+                     
+                        <tr>
+                            <td><%= all.originUrl %></td>
+                            <td><%= all.shortId %></td>
+                            <td>
+                                <%= all.visit %>
+                            </td>
+                        </tr>
+    
+                    <% }) %>
+                    <!-- Add more rows as needed -->
+                    <tr>
+                        <td colspan="3" class="no-data">No data available</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        <% } %>
+    </div>
+</body>
+</html>
